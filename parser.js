@@ -42,83 +42,109 @@ const ROLE_KEYWORDS = {
   ]
 };
 
-// Role-based Custom Bullet point rewrites
+// Role-based Custom Bullet point rewrites with ultra-detailed Problem, Fix, and Impact analysis
 const ROLE_BULLETS = {
   "Software Engineer": [
     {
       original: "Responsible for fixing bugs in the React web application.",
       improved: "Resolved 45+ critical application bottlenecks, improving core React page-load speed by 34% and reducing user drop-off.",
-      explanation: "Replaced a passive description with specific scale, performance metrics, and product business impact."
+      problem: "Passive verb usage ('Responsible for') and lazy task listing. Completely hides your individual agency, technical ownership, and actual accomplishments.",
+      fix: "Reconstructed with a high-impact action verb ('Resolved') and injected clear, specific metrics indicating speed optimization (34% page-load speedup) and volume scope (45+ critical bottlenecks).",
+      impact: "ATS algorithms automatically prioritize resumes containing standard action verbs and specific scale parameters. Recruiters can instantly evaluate your capacity for performance optimization and user experience preservation."
     },
     {
       original: "Helped write backend APIs in Node.js.",
       improved: "Designed and engineered 12 microservice endpoints in Node.js and TypeScript, supporting 10k+ concurrent active users with 99.9% uptime.",
-      explanation: "Injected scale parameters, key technologies, and reliable service metrics."
+      problem: "Weak collaboration terms ('Helped write') reduce your perceived software contributions and authority. Fails to define the production scope or system complexity.",
+      fix: "Upgraded to precise software architecture verbs ('Designed and engineered'), specified the system nature ('12 microservice endpoints'), and declared strict production traffic and SLA targets (10k+ users, 99.9% uptime).",
+      impact: "Proves system design competency and production-level infrastructure ownership. High traffic and high availability statistics reassure engineering leads that you can write scalable code under load."
     },
     {
       original: "Worked in a team to deploy AWS infrastructure.",
       improved: "Co-architected automated CI/CD pipeline on AWS using Docker, reducing deployment times by 40% and cutting manual errors.",
-      explanation: "Specified technologies used and highlighted measurable time-saving achievements."
+      problem: "Extremely generic description ('Worked in a team'). It completely fails to articulate your technical actions or specify what tools you configured.",
+      fix: "Delineated specific role ('Co-architected'), named infrastructure automation tools ('CI/CD pipeline', 'Docker', 'AWS'), and highlighted measurable time efficiency (40% build deployment speedup).",
+      impact: "Demonstrates modern DevOps proficiency and infrastructure automation capabilities, showing you actively save developer hours and minimize production deployment failures."
     }
   ],
   "Product Manager": [
     {
       original: "Led the product team and worked on the product roadmap.",
       improved: "Spearheaded high-priority SaaS lifecycle roadmap, accelerating overall feature release velocity by 25% across two sprint teams.",
-      explanation: "Replaced 'led' with 'spearheaded' and added specific release velocity gains."
+      problem: "Clunky verbs ('Led', 'Worked on') sound standard and administrative. Offers no business insight into roadmap size or feature launch efficiency.",
+      fix: "Converted to premium management verbs ('Spearheaded'), identified product class ('SaaS lifecycle roadmap'), and added precise operational speedup statistics (25% feature release velocity increment across 2 sprint teams).",
+      impact: "Demonstrates high-impact product leadership and cross-functional velocity optimization. Highlights your capability to drive real engineering sprint results, not just draw timelines."
     },
     {
       original: "Talked to customers and wrote user stories in Jira.",
       improved: "Conducted 30+ structured customer research interviews, translating qualitative insights into high-impact product OKRs that grew engagement 12%.",
-      explanation: "Demonstrates data-driven product planning and quantitative business results."
+      problem: "Sounds like basic task execution and administrative work. Jira is just a tool, not an accomplishment.",
+      fix: "Quantified the user research scope ('30+ structured customer interviews'), proved analytical outcomes ('translating qualitative insights into product OKRs'), and proved business conversion growth ('grew engagement 12%').",
+      impact: "Showcases data-driven product management thinking. Proves you can listen to customer needs and translate them into measurable strategic growth, rather than just acting as a task writer."
     }
   ],
   "Data Scientist": [
     {
       original: "Built models in Python to predict quarterly sales numbers.",
       improved: "Developed and deployed XGBoost regression models in Python, improving sales forecast accuracy by 18% and optimizing inventory budgets.",
-      explanation: "Named the specific algorithm used and quantified the direct budget/business improvement."
+      problem: "Lacks algorithmic details and business alignment. Simply saying 'built models' sounds like a student class project.",
+      fix: "Specified algorithm class ('XGBoost regression models'), named programming framework ('Python'), and defined a strong financial metric alignment ('improving forecast accuracy by 18%', 'optimizing inventory budgets').",
+      impact: "Signals deep machine learning engineering capabilities. Proves you can build production-ready ML systems that solve real business forecasting challenges."
     },
     {
       original: "Cleaned data and made dashboard reports.",
       improved: "Engineered automated data preprocessing pipelines in Apache Spark, cutting interactive dashboard latency from 45s to <2s.",
-      explanation: "Quantified dashboard speedups and highlighted engineering skills in big data tools."
+      problem: "Extremely junior-sounding tasks ('Cleaned data', 'Made reports'). Sounds like manual labor instead of engineering.",
+      fix: "Upgraded to high-level engineering terms ('Engineered automated data preprocessing pipelines'), named the big data stack ('Apache Spark'), and quantified extreme latency reduction metrics (cutting latency from 45s to <2s).",
+      impact: "Validates backend big data processing skills. Demonstrates you can scale database queries, replace manual reporting overhead, and improve application query performance."
     }
   ],
   "UX Designer": [
     {
       original: "Did wireframes and Figma designs for a mobile app project.",
       improved: "Designed end-to-end interactive wireframes in Figma, raising checkout flow completion rate by 22% during usability testing.",
-      explanation: "Injected high-impact business conversion goals and product outcomes into user-centric design work."
+      problem: "Highly routine task list ('Did wireframes'). Fails to connect UI changes with user behaviors or conversion objectives.",
+      fix: "Described full design ownership ('end-to-end interactive wireframes'), named industry standard UI tools ('Figma'), and quantified user conversion metrics ('raising checkout completion by 22%').",
+      impact: "Demonstrates conversion-driven design thinking, proving you design interfaces that improve real business objectives and digital sales, rather than just drawing buttons."
     },
     {
       original: "Conducted testing on users and wrote recommendations.",
-      improved: "Facilitated 15 usability testing sessions, reducing user navigation friction by 40% through rapid layout iterations.",
-      explanation: "Highlighted exact volume of sessions and specific UX improvements achieved."
+      improved: "Facilitated 15 usability testing sessions, reducing user navigation friction by 40% through rapid iteration.",
+      problem: "Fails to specify scale, testing methodologies, or how design feedback was actioned.",
+      fix: "Quantified research actions ('15 usability testing sessions'), proved friction reduction metrics ('reducing user navigation friction by 40%'), and highlighted agile processes ('rapid iterations').",
+      impact: "Validates research credentials. Reassures design leads that your UX iterations are backed by structured testing data rather than simple personal assumptions."
     }
   ],
   "Marketing Specialist": [
     {
       original: "Managed social media ads and Google AdWords campaigns.",
       improved: "Optimized paid acquisition search and social campaigns, lowering Customer Acquisition Cost (CAC) by 18% and scaling budget ROAS to 3.2x.",
-      explanation: "Utilized direct marketing metrics (CAC, ROAS) instead of listing generic administrative chores."
+      problem: "Generic administrative description. Fails to mention marketing metrics or prove budget efficiency.",
+      fix: "Converted to acquisition metrics ('Optimized paid search and social campaigns'), and injected core marketing indicators ('lowering CAC by 18%', 'scaling ROAS to 3.2x').",
+      impact: "Validates growth marketing capabilities. Shows you manage company capital efficiently, maximizing customer acquisition returns while cutting marketing wastes."
     },
     {
       original: "Sent out weekly email newsletters.",
       improved: "Overhauled segmentation logic for 80k subscriber list, boosting click-through rates (CTR) by 45% and conversion revenue.",
-      explanation: "Demonstrated advanced segmentation capability and direct financial growth metrics."
+      problem: "Sounds like simple routine calendar management. Anyone can click 'Send' in Mailchimp.",
+      fix: "Highlighted advanced database capabilities ('Overhauled segmentation logic for 80k list') and declared significant campaign metrics ('boosting click-through rates by 45%').",
+      impact: "Proves deep email marketing automation knowledge. Demonstrates your capacity to handle massive client lists and drive direct revenue growth from standard newsletters."
     }
   ],
   "Financial Analyst": [
     {
       original: "Helped senior team members with financial modeling in Excel.",
       improved: "Constructed dynamic DCF financial models in Excel, forecasting quarterly revenue with <2% variance for a $5M portfolio.",
-      explanation: "Named the precise method (DCF modeling), target portfolio scope, and statistical reliability."
+      problem: "Extremely auxiliary description ('Helped senior team members'). Suggests minor administrative work and lacks method details.",
+      fix: "Upgraded to high-value modeling definitions ('Constructed dynamic DCF financial models'), named analytical software ('Excel'), and declared statistical accuracy parameters ('<2% variance for $5M portfolio').",
+      impact: "Demonstrates sophisticated financial intelligence and statistical modeling confidence, showing you can build reliable corporate forecasts autonomously."
     },
     {
       original: "Wrote monthly expense reports for the division.",
       improved: "Automated standard divisional expense reporting via VBA and Power BI, saving 12 hours of manual processing time per month.",
-      explanation: "Highlighted automation skills and quantified exact time efficiency gains."
+      problem: "Sounds like boring manual copying and sorting of expenses.",
+      fix: "Delineated workflow automation tools ('VBA', 'Power BI') and quantified exact monthly time-saving metrics ('saving 12 hours of manual processing time per month').",
+      impact: "Signals high-level corporate efficiency. Hiring managers love candidates who save labor overhead by replacing standard reporting cycles with automated dashboards."
     }
   ]
 };
@@ -342,17 +368,23 @@ Return a valid JSON object conforming exactly to this schema:
     {
       "original": "weak accomplishments from their resume",
       "improved": "beautifully rewritten bullet point with strong action verbs and metrics",
-      "explanation": "why this specific upgrade works for ATS and recruiters"
+      "problem": "Detailed breakdown of the critical issue in the original bullet (e.g. passive verbs, missing metrics, lazy vocabulary)",
+      "fix": "Technical explanation of the precise actions taken to reconstruct the bullet (action verbs, scale elements, technology inclusions)",
+      "impact": "Explanation of how this change impacts ATS crawlers and hiring managers specifically"
     },
     {
       "original": "second weak bullet",
       "improved": "improved bullet point 2",
-      "explanation": "why it works"
+      "problem": "detailed issue",
+      "fix": "precise optimization",
+      "impact": "ATS/recruiter result"
     },
     {
       "original": "third weak bullet",
       "improved": "improved bullet point 3",
-      "explanation": "why it works"
+      "problem": "detailed issue",
+      "fix": "precise optimization",
+      "impact": "ATS/recruiter result"
     }
   ]
 }

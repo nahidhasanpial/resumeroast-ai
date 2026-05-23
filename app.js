@@ -562,12 +562,52 @@ function populateDashboard(fileName, role, result) {
     atsList.appendChild(li);
   });
 
-  // Populate premium bullet rewrites
+  // Populate premium bullet rewrites with detailed Problem, Fix, and Impact explanation blocks
   const bulletsContainer = document.getElementById("results-improved-bullets");
   bulletsContainer.innerHTML = "";
   result.improved_bullets.forEach(b => {
     const item = document.createElement("div");
     item.className = "bullet-item-rewrite";
+    
+    // Check if we have detailed explanation elements (problem/fix/impact), otherwise fall back to generic explanation
+    const hasDetails = b.problem || b.fix || b.impact;
+    let explanationHTML = "";
+    
+    if (hasDetails) {
+      explanationHTML = `
+        <div class="improvement-explanation-detailed">
+          <div class="explanation-segment">
+            <span class="segment-icon">🔴</span>
+            <div class="segment-content">
+              <strong>Critical Issue:</strong>
+              <p>${b.problem || 'Weak phrasing and passive action tone.'}</p>
+            </div>
+          </div>
+          <div class="explanation-segment">
+            <span class="segment-icon">🟢</span>
+            <div class="segment-content">
+              <strong>The Reconstruction:</strong>
+              <p>${b.fix || 'Injected a high-performance verb and quantified accomplishment scale.'}</p>
+            </div>
+          </div>
+          <div class="explanation-segment">
+            <span class="segment-icon">⚡</span>
+            <div class="segment-content">
+              <strong>Recruiter & ATS Impact:</strong>
+              <p>${b.impact || 'ATS parsers successfully crawl and index specific technical metrics.'}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      explanationHTML = `
+        <div class="improvement-explanation">
+          <span class="explanation-bulb">💡</span>
+          <span>${b.explanation || 'Analyzed and improved verb and metrics.'}</span>
+        </div>
+      `;
+    }
+
     item.innerHTML = `
       <div class="rewrite-comparison-block">
         <div class="version-box before-box">
@@ -579,10 +619,7 @@ function populateDashboard(fileName, role, result) {
           <p class="version-text">"${b.improved}"</p>
         </div>
       </div>
-      <div class="improvement-explanation">
-        <span class="explanation-bulb">💡</span>
-        <span>${b.explanation}</span>
-      </div>
+      ${explanationHTML}
     `;
     bulletsContainer.appendChild(item);
   });
