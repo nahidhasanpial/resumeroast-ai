@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResumeRoast AI — Instant, Brutal AI Resume Review & Optimization</title>
+  <!-- Google Fonts: Outfit & Inter for high-end look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- CSS Styling -->
+  <link rel="stylesheet" href="style.css">
+  <!-- PDF.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+</head>
+<body>
+
+  <!-- Floating Background Ambient Light Orbs -->
+  <div class="ambient-glow orb-1"></div>
+  <div class="ambient-glow orb-2"></div>
+  <div class="ambient-glow orb-3"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Top Nav Header -->
+    <header class="app-header">
+      <div class="logo-area" id="btn-brand">
+        <svg class="flame-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C12 2 15 5.5 15 8.5C15 10.9853 13.0147 13 11 13C8.98528 13 7 10.9853 7 8.5C7 5.5 10 2 10 2C10 2 5 6 5 11.5C5 15.6421 8.13401 19 12 19C15.866 19 19 15.6421 19 11.5C19 6 12 2 12 2Z" fill="url(#flame-gradient)" />
+          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.5 13.5 8 13.5 8C13.5 8 11.5 10 11.5 12C11.5 13.6569 11.75 15 12 15Z" fill="url(#inner-gradient)" />
+          <defs>
+            <linearGradient id="flame-gradient" x1="5" y1="2" x2="19" y2="19" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#ff7a00" />
+              <stop offset="50%" stop-color="#ff0055" />
+              <stop offset="100%" stop-color="#7c00ff" />
+            </linearGradient>
+            <linearGradient id="inner-gradient" x1="11.5" y1="8" x2="15" y2="15" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#ffeb3b" />
+              <stop offset="100%" stop-color="#ff9800" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">ResumeRoast<span class="logo-accent">.AI</span></span>
+      </div>
+
+      <div class="header-actions">
+        <button class="nav-btn" id="btn-history-toggle">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>History</span>
+        </button>
+        
+        <button class="nav-btn btn-key-indicator" id="btn-api-toggle">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+          <span id="api-status-label">Configure OpenAI Key</span>
+        </button>
+        
+        <div class="user-status-badge" id="premium-status-indicator">
+          <span class="badge-dot"></span>
+          <span class="status-lbl">Free Tier</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Area -->
+    <main class="app-main">
+
+      <!-- View 1: Home / Dropzone Screen -->
+      <section class="view-panel active-view" id="view-home">
+        
+        <!-- Collapsible API Config Card -->
+        <div class="api-config-card" id="api-config-section">
+          <div class="api-card-header">
+            <h4>OpenAI API Settings</h4>
+            <span class="sub-text">Stored locally in your browser. Fully private.</span>
+          </div>
+          <div class="api-card-body">
+            <div class="input-row">
+              <input type="password" id="input-api-key" placeholder="sk-proj-..." autocomplete="off">
+              <button class="action-btn-small" id="btn-save-key">Save Key</button>
+              <button class="action-btn-small btn-sec" id="btn-clear-key">Clear</button>
+            </div>
+            <p class="api-help-text">No API key? No worries. We provide an advanced local NLP parser for standard evaluation by default.</p>
+          </div>
+        </div>
+
+        <div class="hero-section">
+          <h1 class="hero-title">Instantly <span class="gradient-text">Toast</span> Your Resume</h1>
+          <p class="hero-subtitle">Get scorched with brutal critiques, dynamic ATS keyword compliance scores, and metric-driven bullet point reconstructions in seconds.</p>
+        </div>
+
+        <!-- Interactive Setup Panel -->
+        <div class="roast-setup-card glass-panel">
+          <div class="setup-grid">
+            
+            <!-- Left Side: Upload Zone -->
+            <div class="upload-container">
+              <div class="dropzone" id="resume-dropzone">
+                <input type="file" id="input-resume-file" accept=".pdf" style="display:none;">
+                <div class="dropzone-content">
+                  <div class="upload-icon-container">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                  </div>
+                  <h3>Drag & drop your PDF resume</h3>
+                  <p class="file-size-limit">PDF files only (Max 5MB)</p>
+                  <button class="action-btn btn-sec" id="btn-select-file">Browse File</button>
+                </div>
+                
+                <!-- Selected File Display -->
+                <div class="file-selected-overlay" id="file-selected-card">
+                  <div class="file-info">
+                    <svg class="pdf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <div class="text-meta">
+                      <span class="file-name" id="selected-file-name">my_resume.pdf</span>
+                      <span class="file-size" id="selected-file-size">1.2 MB</span>
+                    </div>
+                  </div>
+                  <button class="remove-file-btn" id="btn-remove-file" title="Remove file">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Side: Job Context Parameters -->
+            <div class="parameters-container">
+              <div class="form-group">
+                <label class="input-label" for="select-role">
+                  <span>Target Professional Role</span>
+                  <span class="hint">Tailors missing keyword checks</span>
+                </label>
+                <select id="select-role" class="custom-select">
+                  <option value="Software Engineer">Software Engineer</option>
+                  <option value="Product Manager">Product Manager</option>
+                  <option value="Data Scientist">Data Scientist</option>
+                  <option value="UX Designer">UX Designer</option>
+                  <option value="Marketing Specialist">Marketing Specialist</option>
+                  <option value="Financial Analyst">Financial Analyst</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label" for="textarea-jd">
+                  <span>Target Job Description (Highly Recommended)</span>
+                  <span class="hint">Extracts specific keywords of the role</span>
+                </label>
+                <textarea id="textarea-jd" placeholder="Paste the job posting description here to compare keyword densities and alignment..." rows="5"></textarea>
+              </div>
+
+              <button class="action-btn btn-glowing disabled" id="btn-roast-trigger" disabled>
+                <span class="btn-text">Roast My Resume</span>
+                <span class="sparkle">🔥</span>
+              </button>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Trust Indicators & Active Workspace Notice -->
+        <div class="footer-notice">
+          <p>📍 Stored locally inside <code>D:\resumeroast-ai</code>. Set this directory as your active workspace to inspect, deploy, or extend!</p>
+        </div>
+
+      </section>
+
+      <!-- View 2: Roasting Progress Screen -->
+      <section class="view-panel" id="view-loading">
+        <div class="loading-panel glass-panel">
+          
+          <!-- Animated Roaster Toaster SVG -->
+          <div class="toaster-animation">
+            <svg class="toaster-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Toaster Body -->
+              <rect x="25" y="45" width="50" height="35" rx="8" fill="#2d3142" stroke="#4f5674" stroke-width="3" />
+              <!-- Toaster Base -->
+              <rect x="20" y="80" width="60" height="6" rx="3" fill="#1b1c26" />
+              <!-- Toaster Lever -->
+              <rect class="toaster-lever" x="75" y="55" width="8" height="6" rx="2" fill="#ff7a00" />
+              <!-- Resume Slot -->
+              <line x1="30" y1="45" x2="70" y2="45" stroke="#1b1c26" stroke-width="4" stroke-linecap="round" />
+              
+              <!-- Sparkles & Flame Particles -->
+              <circle class="sparkle-particle p1" cx="35" cy="30" r="2" fill="#ff7a00" />
+              <circle class="sparkle-particle p2" cx="50" cy="20" r="3" fill="#ff0055" />
+              <circle class="sparkle-particle p3" cx="65" cy="35" r="1.5" fill="#7c00ff" />
+              <circle class="sparkle-particle p4" cx="42" cy="15" r="2" fill="#ffeb3b" />
+              
+              <!-- Roasting Resume Sheet -->
+              <g class="roasting-resume">
+                <rect x="33" y="15" width="34" height="28" rx="2" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" />
+                <line x1="38" y1="23" x2="62" y2="23" stroke="#94a3b8" stroke-width="2" />
+                <line x1="38" y1="29" x2="56" y2="29" stroke="#94a3b8" stroke-width="2" />
+                <line x1="38" y1="35" x2="48" y2="35" stroke="#94a3b8" stroke-width="2" />
+              </g>
+            </svg>
+          </div>
+
+          <h2 class="loading-title">Roasting in progress...</h2>
+          
+          <!-- Fun Roasting Quotes Selector -->
+          <p class="loading-quote" id="loading-quote-text">Preparing the butter...</p>
+          
+          <!-- Progress Info -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="roast-progress-fill"></div>
+          </div>
+          <span class="progress-percentage" id="roast-progress-percent">0%</span>
+        </div>
+      </section>
+
+      <!-- View 3: Dashboard Results Screen -->
+      <section class="view-panel" id="view-results">
+        
+        <!-- Back Button & Page Header -->
+        <div class="results-header">
+          <button class="nav-btn btn-sec" id="btn-back-home">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Roast Another</span>
+          </button>
+          
+          <div class="meta-details">
+            <span class="role-badge" id="results-role-badge">Software Engineer</span>
+            <span class="date-stamp" id="results-date-stamp">May 24, 2026</span>
+          </div>
+        </div>
+
+        <!-- Main Scoring & Critique Grid -->
+        <div class="results-grid">
+          
+          <!-- Left Column: Circular Progress Score & Tone -->
+          <div class="score-card glass-panel">
+            
+            <div class="circular-score-wrapper">
+              <svg class="score-svg" viewBox="0 0 100 100">
+                <circle class="score-bg-ring" cx="50" cy="50" r="40" stroke="#1d202d" stroke-width="8" fill="none"></circle>
+                <circle class="score-fill-ring" id="results-score-ring" cx="50" cy="50" r="40" stroke="url(#score-ring-grad)" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" fill="none"></circle>
+                <defs>
+                  <linearGradient id="score-ring-grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#06b6d4"></stop>
+                    <stop offset="100%" stop-color="#7c3aed"></stop>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="score-value-container">
+                <span class="score-number" id="results-score-value">0</span>
+                <span class="score-total">/100</span>
+              </div>
+            </div>
+
+            <div class="score-description">
+              <h3 id="roast-meter-title">Soggy Toast</h3>
+              <p class="score-commentary" id="roast-meter-text">This resume wouldn't trigger a single alarm. Let's crisp it up!</p>
+            </div>
+            
+            <hr class="card-divider">
+            
+            <!-- Quick Summary Panel -->
+            <div class="critique-summary">
+              <h4>Brutal Overview</h4>
+              <ul class="summary-bullets" id="results-summary-issues">
+                <!-- Filled dynamically -->
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Keywords, ATS & Core Fixes -->
+          <div class="feedback-panel-container">
+            
+            <!-- Missing Keywords Card -->
+            <div class="feedback-card glass-panel">
+              <div class="card-header-icon">
+                <svg class="panel-icon icon-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <h3>Missing High-Impact Keywords</h3>
+              </div>
+              <p class="panel-desc">ATS keyword filters will dump you straight in the recycle bin without these terms:</p>
+              <div class="keywords-tag-container" id="results-missing-keywords">
+                <!-- Dynamically populated tags -->
+              </div>
+            </div>
+
+            <!-- ATS Suggestions Card -->
+            <div class="feedback-card glass-panel">
+              <div class="card-header-icon">
+                <svg class="panel-icon icon-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <h3>ATS Parsing Obstacles</h3>
+              </div>
+              <p class="panel-desc">Common compliance hurdles detected during resume structural scan:</p>
+              <ul class="ats-checklist" id="results-ats-feedback">
+                <!-- Dynamically populated suggestions -->
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Premium / Paywall Lock Section -->
+        <div class="premium-divider-bar">
+          <span class="bar-text">PRO OPTIMIZATION & ACTIONS</span>
+        </div>
+
+        <div class="premium-features-section" id="premium-outer-container">
+          
+          <!-- Locked Overlap Screen (shown only on free tier) -->
+          <div class="paywall-overlay" id="results-paywall-overlay">
+            <div class="lock-visual-badge">
+              <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+            </div>
+            <h2>Premium Bullet-Point Fixes Locked</h2>
+            <p>We've rewritten your weak accomplishments into bullet points packed with metrics, business value, and action verbs. Unlock the Full Roast Report to access them.</p>
+            
+            <div class="preview-tag-indicator">Free Preview (Partial Analysis Shown Above)</div>
+            
+            <button class="action-btn btn-glowing" id="btn-trigger-paywall">
+              <span>Unlock Full Roast Report — $9</span>
+            </button>
+            <span class="guarantee-text">🔒 100% Satisfaction or full refund. Over 12,000 resumes scorched.</span>
+          </div>
+
+          <!-- Bullet point improvement lists (Blurred in Free preview, active when Pro) -->
+          <div class="bullet-improvements-card glass-panel" id="premium-locked-content">
+            <div class="card-header-icon">
+              <svg class="panel-icon icon-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              <h3>Metric-Driven Bullet Reconstructions</h3>
+            </div>
+            <p class="panel-desc">Before & After rewrites showing how to inject hard metrics and strong verbs into your experience:</p>
+            
+            <div class="bullet-list-container" id="results-improved-bullets">
+              <!-- Dynamically populated or custom styled bullets -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Sidebar Slide-over: History Drawer -->
+    <div class="sidebar-drawer-overlay" id="history-drawer-overlay"></div>
+    <aside class="sidebar-drawer glass-panel" id="history-drawer">
+      <div class="drawer-header">
+        <h3>Roast History</h3>
+        <button class="close-btn" id="btn-history-close">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      
+      <div class="history-list" id="history-items-container">
+        <!-- Rendered items go here -->
+      </div>
+    </aside>
+
+    <!-- Modal Dialog: Billing / Payment Simulator -->
+    <div class="modal-overlay" id="modal-payment-overlay">
+      <div class="modal-card glass-panel">
+        
+        <button class="close-btn btn-modal-close" id="btn-billing-close">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <!-- Slide 1: Checkout Form -->
+        <div class="billing-slide active-slide" id="billing-slide-checkout">
+          <div class="checkout-header">
+            <h3>ResumeRoast <span class="logo-accent">Pro</span></h3>
+            <p>Score details, critical keynotes, and rewritten metric bullet points.</p>
+          </div>
+          
+          <div class="price-bubble">
+            <span class="currency">$</span>
+            <span class="price-val">9</span>
+            <span class="period">one-time</span>
+          </div>
+
+          <div class="billing-form">
+            <div class="form-group">
+              <label class="billing-label">Email Address</label>
+              <input type="email" id="billing-email" placeholder="you@example.com" class="billing-input" value="recruiters_nightmare@gmail.com">
+            </div>
+
+            <div class="form-group">
+              <label class="billing-label">Credit Card Details</label>
+              <div class="cc-input-container">
+                <input type="text" id="billing-cc-num" placeholder="4242 4242 4242 4242" class="billing-input cc-num" maxlength="19">
+                <div class="cc-sub-row">
+                  <input type="text" id="billing-cc-exp" placeholder="MM/YY" class="billing-input cc-exp" maxlength="5">
+                  <input type="password" id="billing-cc-cvc" placeholder="CVC" class="billing-input cc-cvc" maxlength="3">
+                </div>
+              </div>
+            </div>
+            
+            <button class="action-btn btn-glowing w-100" id="btn-billing-submit">
+              <span>Pay & Unlock Report</span>
+            </button>
+            
+            <div class="secure-footer">
+              <svg class="secure-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+              <span>Secure mock checkout. Do not enter real credit card numbers.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Payment Loading Screen -->
+        <div class="billing-slide" id="billing-slide-loading">
+          <div class="billing-loading-spinner-wrapper">
+            <div class="shimmer-spinner"></div>
+            <h3>Authorizing Stripe...</h3>
+            <p>Simulating secure webhook callbacks...</p>
+          </div>
+        </div>
+
+        <!-- Slide 3: Payment Success Screen -->
+        <div class="billing-slide" id="billing-slide-success">
+          <div class="success-icon-wrapper">
+            <svg class="check-success-svg" viewBox="0 0 52 52">
+              <circle class="check-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="check-mark" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+          <h3>Payment Scorched!</h3>
+          <p>Congratulations! You are officially a Pro Roaster. Full analysis metrics unlocked.</p>
+          <button class="action-btn btn-glowing" id="btn-billing-done">Show Premium Report</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="parser.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
