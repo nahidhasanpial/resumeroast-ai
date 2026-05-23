@@ -36,7 +36,7 @@ let roleSelect, jdTextarea, roastBtn, backBtn;
 let apiSection, apiToggleBtn, saveKeyBtn, clearKeyBtn, apiKeyInput, apiStatusLabel;
 let premiumIndicator, paywallOverlay, premiumContainer, unlockPaywallBtn;
 let modalPayment, billingCloseBtn, billingSubmitBtn, billingDoneBtn;
-let billingEmail, billingCC, billingExp, billingCvc;
+let billingBkashNum, billingBkashTxnid, billingBkashScreenshot, bkashScreenshotZone, bkashScreenshotPrompt, bkashScreenshotPreview;
 let historyToggleBtn, historyDrawer, historyOverlay, historyCloseBtn, historyContainer;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -80,10 +80,12 @@ function initElements() {
   billingSubmitBtn = document.getElementById("btn-billing-submit");
   billingDoneBtn = document.getElementById("btn-billing-done");
   
-  billingEmail = document.getElementById("billing-email");
-  billingCC = document.getElementById("billing-cc-num");
-  billingExp = document.getElementById("billing-cc-exp");
-  billingCvc = document.getElementById("billing-cc-cvc");
+  billingBkashNum = document.getElementById("billing-bkash-num");
+  billingBkashTxnid = document.getElementById("billing-bkash-txnid");
+  billingBkashScreenshot = document.getElementById("billing-bkash-screenshot");
+  bkashScreenshotZone = document.getElementById("bkash-screenshot-zone");
+  bkashScreenshotPrompt = document.getElementById("bkash-screenshot-prompt");
+  bkashScreenshotPreview = document.getElementById("bkash-screenshot-preview");
 
   historyToggleBtn = document.getElementById("btn-history-toggle");
   historyDrawer = document.getElementById("history-drawer");
@@ -235,24 +237,38 @@ function bindEvents() {
     showBillingModal(false);
   });
 
-  // Billing credit card formatters
-  billingCC.addEventListener("input", (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    let formatted = value.match(/.{1,4}/g);
-    e.target.value = formatted ? formatted.join(' ') : '';
+  // bKash number input formatting (numeric only, max 11 digits)
+  billingBkashNum.addEventListener("input", (e) => {
+    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 11);
   });
 
-  billingExp.addEventListener("input", (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 2) {
-      e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
-    } else {
-      e.target.value = value;
+  // bKash TxnID formatting (automatically uppercase)
+  billingBkashTxnid.addEventListener("input", (e) => {
+    e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 12);
+  });
+
+  // bKash screenshot click triggers file input
+  bkashScreenshotZone.addEventListener("click", () => {
+    billingBkashScreenshot.click();
+  });
+
+  // File input change logic: renders preview filename
+  billingBkashScreenshot.addEventListener("change", (e) => {
+    const files = e.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+      document.querySelector("#bkash-screenshot-preview .preview-filename").textContent = file.name;
+      bkashScreenshotPrompt.style.display = "none";
+      bkashScreenshotPreview.style.display = "flex";
     }
   });
 
-  billingCvc.addEventListener("input", (e) => {
-    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+  // Remove uploaded screenshot
+  document.querySelector("#bkash-screenshot-preview .preview-remove").addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent triggering click event on screenshot zone
+    billingBkashScreenshot.value = "";
+    bkashScreenshotPrompt.style.display = "flex";
+    bkashScreenshotPreview.style.display = "none";
   });
 
   // Billing submit simulation
@@ -643,13 +659,25 @@ function showBillingModal(show) {
  * Billing checkout submit callback simulation
  */
 function handlePaymentSubmission() {
-  const email = billingEmail.value.trim();
-  const cc = billingCC.value.trim();
-  const exp = billingExp.value.trim();
-  const cvc = billingCvc.value.trim();
+  const bkashNum = billingBkashNum.value.trim();
+  const txnid = billingBkashTxnid.value.trim();
+  const file = billingBkashScreenshot.files[0];
 
-  if (!email || cc.length < 15 || exp.length < 5 || cvc.length < 3) {
-    showNotification("Please fill in valid mockup card details.", "red");
+  // Regex to check valid 11-digit Bangladeshi mobile numbers starting with 01
+  const bkashPhoneRegex = /^01[3-9]\d{8}$/;
+  
+  if (!bkashPhoneRegex.test(bkashNum)) {
+    showNotification("একটি সঠিক বিকাশ নাম্বার দিন (যেমন: 01830494309)", "red");
+    return;
+  }
+
+  if (txnid.length < 8 || txnid.length > 12) {
+    showNotification("বিকাশ লেনদেন আইডি (Transaction ID) কমপক্ষে ৮-১২ অক্ষরের হতে হবে।", "red");
+    return;
+  }
+
+  if (!file) {
+    showNotification("পেমেন্ট সম্পন্ন করার স্ক্রিনশট আপলোড করুন।", "red");
     return;
   }
 
@@ -657,7 +685,7 @@ function handlePaymentSubmission() {
   document.getElementById("billing-slide-checkout").classList.remove("active-slide");
   document.getElementById("billing-slide-loading").classList.add("active-slide");
 
-  // Mock server roundtrip delay
+  // Mock server roundtrip ledger query delay
   setTimeout(() => {
     document.getElementById("billing-slide-loading").classList.remove("active-slide");
     document.getElementById("billing-slide-success").classList.add("active-slide");
